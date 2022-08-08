@@ -18,3 +18,5 @@ vscode:
     - streetsidesoftware.code-spell-checker
     # Prettier
     - esbenp.prettier-vscode
+    # TailwindCSS
+    - bradlc.vscode-tailwindcss
