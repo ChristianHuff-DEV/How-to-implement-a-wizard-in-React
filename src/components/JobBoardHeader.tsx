@@ -1,8 +1,8 @@
-interface JobBoardHeader {
+interface JobBoardHeaderProps {
   onAddJob: () => void;
 }
 
-const JobBoardHeader = (props: JobBoardHeader) => {
+const JobBoardHeader = (props: JobBoardHeaderProps) => {
   return (
     <div className="border-2 rounded-xl p-4 border-indigo-500 my-10 flex items-center justify-between">
       <div className="flex-1 min-w-0">
