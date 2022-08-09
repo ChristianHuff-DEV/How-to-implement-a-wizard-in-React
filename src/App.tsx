@@ -1,7 +1,13 @@
-import JobBoard from "./components/JobBoard";
+import Home from "./components/Home";
+import NavigationBar from "./components/NavigationBar";
 
 function App() {
-  return <JobBoard />;
+  return (
+    <div>
+      <NavigationBar />
+      <Home />
+    </div>
+  );
 }
 
 export default App;
