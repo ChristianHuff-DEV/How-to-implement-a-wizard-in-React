@@ -18,7 +18,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="employees" element={<EmployeesOverview />}></Route>
+          <Route path="employees/*" element={<EmployeesOverview />}></Route>
           <Route path="employees/:employeeID" element={<EmployeeDetails />} />
           {/* Catch all route if no other route matches */}
           <Route path="*" element={<Error404 />} />

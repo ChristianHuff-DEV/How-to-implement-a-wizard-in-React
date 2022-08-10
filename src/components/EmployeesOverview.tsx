@@ -2,6 +2,7 @@ import EmployeesOverviewHeader from "./EmployeesOverviewHeader";
 import EmployeeList from "./EmployeeList";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
+import AddEmployeeWizard from "./wizard/AddEmployeeWizard";
 
 const EmployeesOverview = () => {
   const [isAddEmployeeFormOpen, setAddEmployeeFormOpen] =
@@ -10,8 +11,9 @@ const EmployeesOverview = () => {
   return (
     <div className="container mx-auto ">
       <EmployeesOverviewHeader
-        onAddEmployee={() => console.log("onEmployee")}
+        onAddEmployee={() => setAddEmployeeFormOpen(!isAddEmployeeFormOpen)}
       />
+      {isAddEmployeeFormOpen && <AddEmployeeWizard />}
       <EmployeeList />
       <Outlet />
     </div>
