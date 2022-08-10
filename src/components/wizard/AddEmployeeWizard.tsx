@@ -6,6 +6,7 @@ import StepStart from "./StepStart";
 const AddEmployeeWizard = () => {
   return (
     <>
+      {/* The routes defined here will be rendered in the <Outlet /> in the component of the parent path. */}
       <Routes>
         <Route path="/" element={<StepStart />} />
         <Route path="step1" element={<Step1 />} />
