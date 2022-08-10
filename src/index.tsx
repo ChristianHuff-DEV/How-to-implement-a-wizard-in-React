@@ -8,6 +8,7 @@ import EmployeesOverview from "./components/EmployeesOverview";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import EmployeeDetails from "./components/EmployeeDetails";
+import AddEmployeeWizard from "./components/wizard/AddEmployeeWizard";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -18,7 +19,13 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="employees/*" element={<EmployeesOverview />}></Route>
+          <Route path="employees/*" element={<EmployeesOverview />}>
+            {/*
+             * This route and all routes defined in the children will be rendered in the <Outlet/>
+             * of the parent component, here <EmployeeOverview/>
+             */}
+            <Route path="addEmployee/*" element={<AddEmployeeWizard />} />
+          </Route>
           <Route path="employees/:employeeID" element={<EmployeeDetails />} />
           {/* Catch all route if no other route matches */}
           <Route path="*" element={<Error404 />} />

@@ -1,21 +1,17 @@
-import EmployeesOverviewHeader from "./EmployeesOverviewHeader";
+import { Outlet, useNavigate } from "react-router-dom";
 import EmployeeList from "./EmployeeList";
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
-import AddEmployeeWizard from "./wizard/AddEmployeeWizard";
+import EmployeesOverviewHeader from "./EmployeesOverviewHeader";
 
 const EmployeesOverview = () => {
-  const [isAddEmployeeFormOpen, setAddEmployeeFormOpen] =
-    useState<boolean>(false);
+	const navigate = useNavigate();
 
   return (
     <div className="container mx-auto ">
       <EmployeesOverviewHeader
-        onAddEmployee={() => setAddEmployeeFormOpen(!isAddEmployeeFormOpen)}
+        onAddEmployee={() => navigate("/employees/addEmployee")}
       />
-      {isAddEmployeeFormOpen && <AddEmployeeWizard />}
-      <EmployeeList />
       <Outlet />
+      <EmployeeList />
     </div>
   );
 };
