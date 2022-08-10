@@ -1,6 +1,6 @@
-import { getJobs } from "../data";
+import { getEmployees } from "../data";
 
-const JobList = () => {
+const EmployeeList = () => {
   return (
     <div className="mt-8 flex flex-col">
       <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -36,19 +36,19 @@ const JobList = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {getJobs().map((person) => (
-                  <tr key={person.email}>
+                {getEmployees().map((employee) => (
+                  <tr key={employee.email}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                      {person.name}
+                      {employee.name}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.title}
+                      {employee.title}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.email}
+                      {employee.email}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {person.role}
+                      {employee.role}
                     </td>
                   </tr>
                 ))}
@@ -61,4 +61,4 @@ const JobList = () => {
   );
 };
 
-export default JobList;
+export default EmployeeList;

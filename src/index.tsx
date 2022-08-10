@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Error404 from "./components/Error404";
 import Home from "./components/Home";
-import JobBoard from "./components/JobBoard";
+import EmployeesOverview from "./components/EmployeesOverview";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
@@ -17,7 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="jobs" element={<JobBoard />} />
+          <Route path="employees" element={<EmployeesOverview />} />
           {/* Catch all route if no other route matches */}
           <Route path="*" element={<Error404 />} />
         </Route>

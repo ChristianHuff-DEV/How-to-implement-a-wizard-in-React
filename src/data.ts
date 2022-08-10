@@ -1,4 +1,4 @@
-let jobs = [
+let employees = [
 	{
 		name: "Lindsay Walton",
 		title: "Front-end Developer",
@@ -7,6 +7,6 @@ let jobs = [
 	},
 ];
 
-export function getJobs() {
-	return jobs;
+export function getEmployees() {
+	return employees;
 }
