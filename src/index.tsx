@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import EmployeesOverview from "./components/EmployeesOverview";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import EmployeeDetails from "./components/EmployeeDetails";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
@@ -17,7 +18,9 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="employees" element={<EmployeesOverview />} />
+          <Route path="employees" element={<EmployeesOverview />}>
+            <Route path=":employeeID" element={<EmployeeDetails />} />
+          </Route>
           {/* Catch all route if no other route matches */}
           <Route path="*" element={<Error404 />} />
         </Route>

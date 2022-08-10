@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { getEmployees } from "../data";
 
 const EmployeeList = () => {
@@ -38,8 +39,10 @@ const EmployeeList = () => {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {getEmployees().map((employee) => (
                   <tr key={employee.email}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                      {employee.name}
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-medium text-indigo-700 ">
+                      <Link to={`/employees/${employee.id}`} className="hover:border-b-2 hover:border-indigo-700">
+                        {employee.name}
+                      </Link>
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {employee.title}
