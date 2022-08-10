@@ -13,7 +13,7 @@ const NavigationBar = () => {
               Home
             </Link>
             <Link
-              to="/jobs"
+              to="jobs"
               className="border-transparent text-gray-800 hover:border-indigo-600 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-lg font-medium"
             >
               Jobs
