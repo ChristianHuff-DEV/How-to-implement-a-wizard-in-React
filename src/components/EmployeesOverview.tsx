@@ -8,7 +8,7 @@ const EmployeesOverview = () => {
   return (
     <div className="container mx-auto ">
       <EmployeesOverviewHeader
-        onAddEmployee={() => navigate("/employees/addEmployee")}
+        onAddEmployee={() => navigate("/employees/addEmployee/step1")}
       />
       <Outlet />
       <EmployeeList />
