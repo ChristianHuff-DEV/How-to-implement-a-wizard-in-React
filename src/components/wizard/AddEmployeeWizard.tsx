@@ -11,19 +11,31 @@ interface Step {
   status: "upcoming" | "current" | "complete";
 }
 
+export interface StepProps {
+  /**Path to previous step (if there is one)*/
+  previousStepPath?: string;
+  /**Path to the next step (if there is one)*/
+  nextStepPath?: string;
+}
+
 const steps: Step[] = [
   {
     id: "Step 1",
     name: "Personal Details",
     to: "/employees/addEmployee/step1",
-    element: <Step1 />,
+    element: <Step1 nextStepPath="/employees/addEmployee/step2" />,
     status: "upcoming",
   },
   {
     id: "Step 2",
     name: "Job Details",
     to: "/employees/addEmployee/step2",
-    element: <Step2 />,
+    element: (
+      <Step2
+        previousStepPath="/employees/addEmployee/step1"
+        nextStepPath="/employees/addEmployee/summary"
+      />
+    ),
     status: "upcoming",
   },
   {

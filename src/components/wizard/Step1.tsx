@@ -1,4 +1,8 @@
-const Step1 = () => {
+import { useNavigate } from "react-router-dom";
+import { StepProps } from "./AddEmployeeWizard";
+
+const Step1 = (props: StepProps) => {
+  const navigate = useNavigate();
   return (
     <form className="space-y-8 divide-y divide-gray-200">
       <div className="pt-2 space-y-5">
@@ -46,18 +50,24 @@ const Step1 = () => {
 
       <div className="py-5">
         <div className="flex justify-end">
-          <button
-            type="button"
-            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Next
-          </button>
+          {props.previousStepPath && (
+            <button
+              type="button"
+              // I'm not sure why the "!" is required here. Since we only render this button if it is defined.
+              onClick={() => navigate(props.previousStepPath!)}
+              className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Back
+            </button>
+          )}
+          {props.nextStepPath && (
+            <button
+              onClick={() => navigate(props.nextStepPath!)}
+              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </form>
