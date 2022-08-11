@@ -8,18 +8,21 @@ const steps = [
     id: "Step 1",
     name: "Personal Details",
     to: "/employees/addEmployee/step1",
+    element: <Step1 />,
     status: "complete",
   },
   {
     id: "Step 2",
     name: "Job Details",
     to: "/employees/addEmployee/step2",
+    element: <Step2 />,
     status: "current",
   },
   {
     id: "Step 3",
     name: "Summary",
     to: "/employees/addEmployee/summary",
+    element: <StepResult />,
     status: "upcoming",
   },
 ];
@@ -29,9 +32,13 @@ const AddEmployeeWizard = () => {
     <>
       {/* The routes defined here will be rendered in the <Outlet /> in the component of the parent path. */}
       <Routes>
-        <Route path="step1" element={<Step1 />} />
-        <Route path="step2" element={<Step2 />} />
-        <Route path="summary" element={<StepResult />} />
+        {steps.map((step) => {
+          // Get the last part of the url
+          const urlParts = step.to.split("/");
+          const path = urlParts[urlParts.length - 1];
+
+          return <Route key={path} path={path} element={step.element} />;
+        })}
       </Routes>
       <WizardNavigator />
     </>
