@@ -15,7 +15,7 @@ interface AddEmployeeWizardState {
   updateRole: (role: string) => void;
 }
 
-const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
+export const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
   name: "",
   email: "",
   role: "",
@@ -93,9 +93,6 @@ function WizardProgress() {
     <div>
       <ol className="flex space-y-0 space-x-8">
         {steps.map((step) => {
-          console.log(step.to + ":" + pathname);
-          console.log(pathname === step.to);
-
           return (
             <li key={step.name} className="flex-1">
               <Link

@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { StepProps } from "./AddEmployeeWizard";
+import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 const Step1 = (props: StepProps) => {
+  const state = useAddEmployeeWizardState((state) => state);
+
   const navigate = useNavigate();
   return (
     <form className="space-y-8 divide-y divide-gray-200">
@@ -24,6 +26,8 @@ const Step1 = (props: StepProps) => {
                 type="text"
                 name="name"
                 id="name"
+                value={state.name}
+                onChange={(e) => state.updateName(e.currentTarget.value)}
                 className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -41,6 +45,8 @@ const Step1 = (props: StepProps) => {
                 type="email"
                 name="email"
                 id="email"
+                value={state.email}
+                onChange={(e) => console.log("implement state update")}
                 className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
               />
             </div>
