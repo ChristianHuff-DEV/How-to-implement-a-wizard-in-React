@@ -6,7 +6,7 @@ const EmployeesOverview = () => {
 	const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto">
       <EmployeesOverviewHeader
         onAddEmployee={() => navigate("/employees/addEmployee/step1")}
       />

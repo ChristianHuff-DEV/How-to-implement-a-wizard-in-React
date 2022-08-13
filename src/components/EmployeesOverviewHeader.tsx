@@ -4,7 +4,7 @@ interface EmployeesOverviewHeaderProps {
 
 const EmployeesOverviewHeader = (props: EmployeesOverviewHeaderProps) => {
   return (
-    <div className="border-2 rounded-xl p-4 border-indigo-500 my-10 flex items-center justify-between">
+    <div className="border-2 rounded-xl p-4 border-indigo-500 mt-10 flex items-center justify-between">
       <div className="flex-1 min-w-0">
         <h2 className="text-2xl font-bold leading-7 text-gray-900">Employees</h2>
       </div>
