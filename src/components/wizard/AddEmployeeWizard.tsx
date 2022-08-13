@@ -9,12 +9,10 @@ interface AddEmployeeWizardState {
   email: string;
   title: string;
   role: string;
-  update: (
-    name?: string,
-    email?: string,
-    title?: string,
-    role?: string,
-  ) => void;
+  updateName: (name: string) => void;
+  updateEmail: (email: string) => void;
+  updateTitle: (title: string) => void;
+  updateRole: (role: string) => void;
 }
 
 const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
@@ -22,14 +20,18 @@ const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
   email: "",
   role: "",
   title: "",
-	update: (name?, email?, title?, role?) => {
-		set((state) => ({
-			name: name,
-			email: email,
-			title: title,
-			role: role,
-		}))
-	},
+  updateName: (name) => {
+    set(() => ({ name: name }));
+  },
+  updateEmail: (email) => {
+    set(() => ({ email: email }));
+  },
+  updateTitle: (role) => {
+    set(() => ({ role: role }));
+  },
+  updateRole: (title) => {
+    set(() => ({ title: title }));
+  },
 }));
 
 interface Step {
