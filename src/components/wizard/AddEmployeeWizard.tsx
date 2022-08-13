@@ -26,11 +26,11 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) =>
   updateEmail: (email) => {
     set(() => ({ email: email }));
   },
-  updateTitle: (role) => {
-    set(() => ({ role: role }));
-  },
-  updateRole: (title) => {
+  updateTitle: (title) => {
     set(() => ({ title: title }));
+  },
+  updateRole: (role) => {
+    set(() => ({ role: role }));
   },
 }));
 

@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 const StepResult = () => {
   const navigate = useNavigate();
+  const state = useAddEmployeeWizardState((state) => state);
+
   return (
     <div className="container py-5">
       <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-        <TextBox label="Name" value="PLACEHOLDER" />
-        <TextBox label="Email" value="PLACEHOLDER" />
-        <TextBox label="Title" value="PLACEHOLDER" />
-        <TextBox label="Role" value="PLACEHOLDER" />
+        <TextBox label="Name" value={state.name} />
+        <TextBox label="Email" value={state.email} />
+        <TextBox label="Title" value={state.title} />
+        <TextBox label="Role" value={state.role} />
       </div>
       <div className="py-5">
         <div className="flex justify-end">

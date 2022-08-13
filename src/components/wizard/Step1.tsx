@@ -46,7 +46,7 @@ const Step1 = (props: StepProps) => {
                 name="email"
                 id="email"
                 value={state.email}
-                onChange={(e) => console.log("implement state update")}
+                onChange={(e) => state.updateEmail(e.currentTarget.value)}
                 className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
               />
             </div>
