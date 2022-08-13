@@ -1,4 +1,5 @@
 import { Link, Route, Routes, useLocation } from "react-router-dom";
+import create from "zustand";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import StepResult from "./StepResult";
@@ -8,8 +9,28 @@ interface AddEmployeeWizardState {
   email: string;
   title: string;
   role: string;
-  update: (name: string, email: string, title: string, role: string) => void;
+  update: (
+    name?: string,
+    email?: string,
+    title?: string,
+    role?: string,
+  ) => void;
 }
+
+const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
+  name: "",
+  email: "",
+  role: "",
+  title: "",
+	update: (name?, email?, title?, role?) => {
+		set((state) => ({
+			name: name,
+			email: email,
+			title: title,
+			role: role,
+		}))
+	},
+}));
 
 interface Step {
   id: string;
