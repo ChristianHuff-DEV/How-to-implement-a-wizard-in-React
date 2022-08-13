@@ -50,16 +50,15 @@ const Step2 = (props: StepProps) => {
 
       <div className="py-5">
         <div className="flex justify-end">
-          {props.previousStepPath && (
-            <button
-              type="button"
-              // I'm not sure why the "!" is required here. Since we only render this button if it is defined.
-              onClick={() => navigate(props.previousStepPath!)}
-              className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Back
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/employees");
+            }}
+            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Cancel
+          </button>
           {props.nextStepPath && (
             <button
               onClick={() => navigate(props.nextStepPath!)}

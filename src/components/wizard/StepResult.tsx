@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const StepResult = () => {
+  const navigate = useNavigate();
   return (
     <div className="container py-5">
       <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
@@ -11,7 +14,7 @@ const StepResult = () => {
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={() => {}}
+            onClick={() => {navigate("/employees")}}
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Cancel

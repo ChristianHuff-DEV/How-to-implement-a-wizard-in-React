@@ -8,7 +8,6 @@ interface Step {
   name: string;
   to: string;
   element: JSX.Element;
-  status: "upcoming" | "current" | "complete";
 }
 
 export interface StepProps {
@@ -24,7 +23,6 @@ const steps: Step[] = [
     name: "Personal Details",
     to: "/employees/addEmployee/step1",
     element: <Step1 nextStepPath="/employees/addEmployee/step2" />,
-    status: "upcoming",
   },
   {
     id: "Step 2",
@@ -36,14 +34,12 @@ const steps: Step[] = [
         nextStepPath="/employees/addEmployee/summary"
       />
     ),
-    status: "upcoming",
   },
   {
     id: "Step 3",
     name: "Summary",
     to: "/employees/addEmployee/summary",
     element: <StepResult />,
-    status: "upcoming",
   },
 ];
 
@@ -82,8 +78,8 @@ function WizardProgress() {
                 to={step.to}
                 className={`group py-2 flex flex-col pl-0 pt-4 border-t-4 ${
                   pathname === step.to
-                    ? "border-indigo-400 hover:border-indigo-600 "
-                    : "border-indigo-600 hover:border-indigo-800"
+                    ? "border-indigo-600 hover:border-indigo-800 "
+                    : "border-indigo-200 hover:border-indigo-400"
                 } `}
               >
                 <span className="text-xs text-indigo-600 font-semibold tracking-wide uppercase group-hover:text-indigo-800">
