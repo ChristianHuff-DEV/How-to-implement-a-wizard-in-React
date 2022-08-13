@@ -11,8 +11,6 @@ interface Step {
 }
 
 export interface StepProps {
-  /**Path to previous step (if there is one)*/
-  previousStepPath?: string;
   /**Path to the next step (if there is one)*/
   nextStepPath?: string;
 }
@@ -30,7 +28,6 @@ const steps: Step[] = [
     to: "/employees/addEmployee/step2",
     element: (
       <Step2
-        previousStepPath="/employees/addEmployee/step1"
         nextStepPath="/employees/addEmployee/summary"
       />
     ),
