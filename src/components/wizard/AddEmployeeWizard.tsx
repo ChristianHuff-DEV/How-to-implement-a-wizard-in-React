@@ -3,6 +3,14 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import StepResult from "./StepResult";
 
+interface AddEmployeeWizardState {
+  name: string;
+  email: string;
+  title: string;
+  role: string;
+  update: (name: string, email: string, title: string, role: string) => void;
+}
+
 interface Step {
   id: string;
   name: string;
@@ -26,11 +34,7 @@ const steps: Step[] = [
     id: "Step 2",
     name: "Job Details",
     to: "/employees/addEmployee/step2",
-    element: (
-      <Step2
-        nextStepPath="/employees/addEmployee/summary"
-      />
-    ),
+    element: <Step2 nextStepPath="/employees/addEmployee/summary" />,
   },
   {
     id: "Step 3",
