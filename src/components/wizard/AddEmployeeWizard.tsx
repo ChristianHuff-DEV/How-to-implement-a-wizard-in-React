@@ -4,35 +4,40 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import StepResult from "./StepResult";
 
-interface AddEmployeeWizardState {
+export interface AddEmployeeWizardInput {
   name: string;
   email: string;
   title: string;
   role: string;
+}
+
+interface AddEmployeeWizardState extends AddEmployeeWizardInput {
   updateName: (name: string) => void;
   updateEmail: (email: string) => void;
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
 }
 
-export const useAddEmployeeWizardState = create<AddEmployeeWizardState>((set) => ({
-  name: "",
-  email: "",
-  role: "",
-  title: "",
-  updateName: (name) => {
-    set(() => ({ name: name }));
-  },
-  updateEmail: (email) => {
-    set(() => ({ email: email }));
-  },
-  updateTitle: (title) => {
-    set(() => ({ title: title }));
-  },
-  updateRole: (role) => {
-    set(() => ({ role: role }));
-  },
-}));
+export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
+  (set) => ({
+    name: "",
+    email: "",
+    role: "",
+    title: "",
+    updateName: (name) => {
+      set(() => ({ name: name }));
+    },
+    updateEmail: (email) => {
+      set(() => ({ email: email }));
+    },
+    updateTitle: (title) => {
+      set(() => ({ title: title }));
+    },
+    updateRole: (role) => {
+      set(() => ({ role: role }));
+    },
+  }),
+);
 
 interface Step {
   id: string;
