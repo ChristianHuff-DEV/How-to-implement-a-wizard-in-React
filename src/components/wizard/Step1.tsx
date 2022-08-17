@@ -1,4 +1,5 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import React from "react";
+import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
@@ -9,7 +10,31 @@ interface Step1Inputs {
   name: string;
   email: string;
 }
+type InputProps<T> = {
+  label: string;
+  name: Path<T>;
+  register: UseFormRegister<T>;
+  required?: boolean;
+};
 
+// The following component is an example of your existing Input Component
+const Input = <T,>({
+  label,
+  name,
+  register,
+  required,
+}: InputProps<T>) => (
+  <>
+    <label className="block text-md font-medium text-gray-700 mt-px pt-2">
+      {label}
+    </label>
+    <input
+      {...register(name, { required })}
+      type="text"
+      className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
+    />
+  </>
+);
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
@@ -17,7 +42,7 @@ const Step1 = (props: StepProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Step1Inputs>();
+  } = useForm<Step1Inputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<Step1Inputs> = (data) => {
     console.log("submitting");
@@ -43,7 +68,9 @@ const Step1 = (props: StepProps) => {
         </div>
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-            <label
+            <Input name="name" label="Name" register={register} />
+
+            {/* <label
               htmlFor="name"
               className="block text-md font-medium text-gray-700 mt-px pt-2"
             >
@@ -57,7 +84,7 @@ const Step1 = (props: StepProps) => {
                   },
                 })}
                 type="text"
-								defaultValue={state.name}
+                defaultValue={state.name}
                 className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
               />
               {errors.name && (
@@ -65,7 +92,7 @@ const Step1 = (props: StepProps) => {
                   {errors.name.message}
                 </p>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
