@@ -1,5 +1,10 @@
-import React from "react";
-import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
+import {
+  Path,
+  RegisterOptions,
+  SubmitHandler,
+  useForm,
+  UseFormRegister,
+} from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
@@ -15,6 +20,7 @@ type InputProps<T> = {
   name: Path<T>;
   register: UseFormRegister<T>;
   required?: boolean;
+  validate?: RegisterOptions<T>["validate"];
 };
 
 // The following component is an example of your existing Input Component
@@ -23,13 +29,14 @@ const Input = <T,>({
   name,
   register,
   required,
+  validate,
 }: InputProps<T>) => (
   <>
     <label className="block text-md font-medium text-gray-700 mt-px pt-2">
       {label}
     </label>
     <input
-      {...register(name, { required })}
+      {...register(name, { required, validate })}
       type="text"
       className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
     />
@@ -68,7 +75,15 @@ const Step1 = (props: StepProps) => {
         </div>
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-            <Input name="name" label="Name" register={register} />
+            <Input
+              name="name"
+              label="Name"
+              register={register}
+              required
+              validate={{
+                notFail: (v) => v !== "fail" || "invalid value",
+              }}
+            />
 
             {/* <label
               htmlFor="name"
