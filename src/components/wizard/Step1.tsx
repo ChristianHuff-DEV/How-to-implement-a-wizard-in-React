@@ -22,7 +22,7 @@ type InputProps<T> = {
   defaultValue?: string;
   required?: boolean;
   validate?: RegisterOptions<T>["validate"];
-  // onChange?: (value: string) => void;
+  onChange?: (value: string) => void;
 };
 
 // The following component is an example of your existing Input Component
@@ -33,8 +33,8 @@ const Input = <T,>({
   required,
   validate,
   defaultValue,
-}: // onChange,
-InputProps<T>) => (
+  onChange,
+}: InputProps<T>) => (
   <>
     <label className="block text-md font-medium text-gray-700 mt-px pt-2">
       {label}
@@ -44,11 +44,11 @@ InputProps<T>) => (
       {...register(name, {
         required,
         validate,
-        // onChange: (e) => {
-        //   if (e.currentTarget) {
-        //     console.log(e.currentTarget.value);
-        //   }
-        // },
+        onChange: (e) => {
+          if (onChange && e.currentTarget) {
+            onChange(e.currentTarget.value);
+          }
+        },
       })}
       type="text"
       className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
@@ -97,6 +97,7 @@ const Step1 = (props: StepProps) => {
               validate={{
                 notFail: (v) => v !== "fail" || "invalid value",
               }}
+              onChange={(value) => state.updateName(value)}
             />
 
             {/* <label
