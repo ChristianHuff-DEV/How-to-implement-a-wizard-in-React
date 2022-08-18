@@ -19,6 +19,7 @@ type InputProps<T> = {
   label: string;
   name: Path<T>;
   register: UseFormRegister<T>;
+  defaultValue?: string;
   required?: boolean;
   validate?: RegisterOptions<T>["validate"];
   // onChange?: (value: string) => void;
@@ -31,6 +32,7 @@ const Input = <T,>({
   register,
   required,
   validate,
+  defaultValue,
 }: // onChange,
 InputProps<T>) => (
   <>
@@ -38,6 +40,7 @@ InputProps<T>) => (
       {label}
     </label>
     <input
+      defaultValue={defaultValue}
       {...register(name, {
         required,
         validate,
@@ -86,6 +89,7 @@ const Step1 = (props: StepProps) => {
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
             <Input
+              defaultValue={state.name}
               name="name"
               label="Name"
               register={register}
