@@ -21,6 +21,7 @@ type InputProps<T> = {
   register: UseFormRegister<T>;
   required?: boolean;
   validate?: RegisterOptions<T>["validate"];
+  // onChange?: (value: string) => void;
 };
 
 // The following component is an example of your existing Input Component
@@ -30,13 +31,22 @@ const Input = <T,>({
   register,
   required,
   validate,
-}: InputProps<T>) => (
+}: // onChange,
+InputProps<T>) => (
   <>
     <label className="block text-md font-medium text-gray-700 mt-px pt-2">
       {label}
     </label>
     <input
-      {...register(name, { required, validate })}
+      {...register(name, {
+        required,
+        validate,
+        // onChange: (e) => {
+        //   if (e.currentTarget) {
+        //     console.log(e.currentTarget.value);
+        //   }
+        // },
+      })}
       type="text"
       className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
     />
