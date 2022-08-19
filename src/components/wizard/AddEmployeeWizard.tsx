@@ -16,14 +16,19 @@ interface AddEmployeeWizardState extends AddEmployeeWizardInput {
   updateEmail: (email: string) => void;
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
+  reset: () => void;
 }
+
+const initialState: AddEmployeeWizardInput = {
+  name: "",
+  email: "",
+  title: "",
+  role: "",
+};
 
 export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
   (set) => ({
-    name: "",
-    email: "",
-    role: "",
-    title: "",
+    ...initialState,
     updateName: (name) => {
       set(() => ({ name: name }));
     },
@@ -35,6 +40,9 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
     },
     updateRole: (role) => {
       set(() => ({ role: role }));
+    },
+    reset: () => {
+      set(() => ({ ...initialState }));
     },
   }),
 );
