@@ -1,4 +1,5 @@
 import {
+  FormState,
   Path,
   RegisterOptions,
   SubmitHandler,
@@ -19,6 +20,7 @@ type InputProps<T> = {
   label: string;
   name: Path<T>;
   register: UseFormRegister<T>;
+  formState: FormState<T>;
   defaultValue?: string;
   required?: boolean;
   validate?: RegisterOptions<T>["validate"];
@@ -34,6 +36,7 @@ const Input = <T,>({
   validate,
   defaultValue,
   onChange,
+  formState: { errors },
 }: InputProps<T>) => (
   <>
     <label className="block text-md font-medium text-gray-700 mt-px pt-2">
@@ -53,16 +56,19 @@ const Input = <T,>({
       type="text"
       className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
     />
+    {errors.name && (
+      <p className="mt-2 text-sm text-red-600" id="email-error">
+        {errors.name.message}
+      </p>
+    )}
   </>
 );
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Step1Inputs>({ mode: "onChange" });
+  const { register, handleSubmit, formState } = useForm<Step1Inputs>({
+    mode: "onChange",
+  });
 
   const onSubmit: SubmitHandler<Step1Inputs> = (data) => {
     console.log("submitting");
@@ -92,6 +98,7 @@ const Step1 = (props: StepProps) => {
               defaultValue={state.name}
               name="name"
               label="Name"
+              formState={formState}
               register={register}
               required
               validate={{
