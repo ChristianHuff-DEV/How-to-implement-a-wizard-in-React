@@ -1,4 +1,6 @@
+import React from "react";
 import {
+  FieldErrorsImpl,
   FormState,
   Path,
   RegisterOptions,
@@ -25,6 +27,7 @@ type InputProps<T> = {
   required?: boolean;
   validate?: RegisterOptions<T>["validate"];
   onChange?: (value: string) => void;
+  errors?: FieldErrorsImpl<T>;
 };
 
 // The following component is an example of your existing Input Component
@@ -36,38 +39,52 @@ const Input = <T,>({
   validate,
   defaultValue,
   onChange,
-  formState: { errors },
-}: InputProps<T>) => (
+  errors,
+}: InputProps<T>) => {
+  console.log(errors);
+
+  return (
+    <>
+      <label className="block text-md font-medium text-gray-700 mt-px pt-2">
+        {label}
+      </label>
+      <input
+        defaultValue={defaultValue}
+        {...register(name, {
+          required,
+          validate,
+          onChange: (e) => {
+            if (onChange && e.currentTarget) {
+              onChange(e.currentTarget.value);
+            }
+          },
+        })}
+        type="text"
+        className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
+      />
+    </>
+  );
+};
+
+// you can use React.forwardRef to pass the ref too
+const Select = React.forwardRef<
+  HTMLSelectElement,
+  { label: string } & ReturnType<UseFormRegister<Step1Inputs>>
+>(({ onChange, onBlur, name, label }, ref) => (
   <>
-    <label className="block text-md font-medium text-gray-700 mt-px pt-2">
-      {label}
-    </label>
-    <input
-      defaultValue={defaultValue}
-      {...register(name, {
-        required,
-        validate,
-        onChange: (e) => {
-          if (onChange && e.currentTarget) {
-            onChange(e.currentTarget.value);
-          }
-        },
-      })}
-      type="text"
-      className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
-    />
-    {errors.name && (
-      <p className="mt-2 text-sm text-red-600" id="email-error">
-        {errors.name.message}
-      </p>
-    )}
+    <label>{label}</label>
+    <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
   </>
-);
+));
+
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
   const { register, handleSubmit, formState } = useForm<Step1Inputs>({
-    mode: "onChange",
+    mode: "onSubmit",
   });
 
   const onSubmit: SubmitHandler<Step1Inputs> = (data) => {
@@ -93,7 +110,8 @@ const Step1 = (props: StepProps) => {
           </h3>
         </div>
         <div className="space-y-5">
-          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+          <div className="grid grid-cols-2 gap-4 items-start border-t border-gray-200 pt-5">
+            <Select label="Email" {...register("email")} />
             <Input
               defaultValue={state.name}
               name="name"
@@ -102,11 +120,20 @@ const Step1 = (props: StepProps) => {
               register={register}
               required
               validate={{
-                notFail: (v) => v !== "fail" || "invalid value",
+                notFail: (v) => {
+                  console.log("validate");
+                  if (v !== "fail") {
+                    console.log("valid");
+                    return true;
+                  } else {
+                    const error = "invalid value";
+                    console.log(error);
+                    return error;
+                  }
+                },
               }}
               onChange={(value) => state.updateName(value)}
             />
-
             {/* <label
               htmlFor="name"
               className="block text-md font-medium text-gray-700 mt-px pt-2"
