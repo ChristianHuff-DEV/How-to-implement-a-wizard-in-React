@@ -12,12 +12,12 @@ export interface AddEmployeeWizardInput {
 }
 
 interface AddEmployeeWizardState extends AddEmployeeWizardInput {
+  errors: AddEmployeeWizardInput;
   updateName: (name: string) => void;
   updateEmail: (email: string) => void;
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
   reset: () => void;
-  validate: () => { errors: AddEmployeeWizardInput };
 }
 
 const initialState: AddEmployeeWizardInput = {
@@ -30,6 +30,7 @@ const initialState: AddEmployeeWizardInput = {
 export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
   (set) => ({
     ...initialState,
+    errors: { ...initialState },
     updateName: (name) => {
       set(() => ({ name: name }));
     },
@@ -44,10 +45,6 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
     },
     reset: () => {
       set(() => ({ ...initialState }));
-    },
-    validate: () => {
-      let errors = { errors: { ...initialState } };
-      return errors;
     },
   }),
 );

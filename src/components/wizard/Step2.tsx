@@ -1,13 +1,32 @@
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../TextInput";
-import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
+import {
+	StepProps,
+	useAddEmployeeWizardState
+} from "./AddEmployeeWizard";
+
+export const validateTitle = (title: string) => {
+  if (!title) {
+    return "Tittle cannot be empty";
+  }
+  return "";
+};
 
 const Step2 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
 
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (props.nextStepPath) {
+      navigate(props.nextStepPath);
+    }
+  };
+
   return (
-    <form className="space-y-8 divide-y divide-gray-200">
+    <form onSubmit={onSubmit} className="space-y-8 divide-y divide-gray-200">
       <div className="pt-2 space-y-5">
         <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -21,7 +40,7 @@ const Step2 = (props: StepProps) => {
             label="Title"
             value={state.title}
             onChange={(event) => {
-              console.log(event);
+              state.updateTitle(event.currentTarget.value);
             }}
             onBlur={(event) => {
               console.log(event);
@@ -34,7 +53,7 @@ const Step2 = (props: StepProps) => {
             label="Role"
             value={state.role}
             onChange={(event) => {
-							state.updateRole(event.currentTarget.value)
+              state.updateRole(event.currentTarget.value);
             }}
             onBlur={(event) => {
               console.log(event);
@@ -56,7 +75,7 @@ const Step2 = (props: StepProps) => {
           </button>
           {props.nextStepPath && (
             <button
-              onClick={() => navigate(props.nextStepPath!)}
+              type="submit"
               className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Next

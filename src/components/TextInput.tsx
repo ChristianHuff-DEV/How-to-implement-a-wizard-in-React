@@ -13,9 +13,9 @@ interface TextInputProps {
   value: string;
   /** Called anytime the value of the input changes */
   onChange: ChangeEventHandler<HTMLInputElement>;
-  error?: string;
   /** Called anytime the input loses focus */
   onBlur?: FocusEventHandler<HTMLInputElement>;
+  error?: string;
 }
 
 const TextInput = (props: TextInputProps) => {
