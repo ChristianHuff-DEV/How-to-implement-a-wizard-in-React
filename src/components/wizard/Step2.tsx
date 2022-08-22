@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import TextInput from "../TextInput";
 import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 const Step2 = (props: StepProps) => {
@@ -14,43 +15,31 @@ const Step2 = (props: StepProps) => {
           </h3>
         </div>
         <div className="space-y-5">
-          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-            <label
-              htmlFor="title"
-              className="block text-md font-medium text-gray-700 mt-px pt-2"
-            >
-              Title
-            </label>
-            <div className="mt-0 col-span-2">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                value={state.title}
-                onChange={(e) => state.updateTitle(e.currentTarget.value)}
-                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
-              />
-            </div>
-          </div>
-
-          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-            <label
-              htmlFor="role"
-              className="block text-md font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Role
-            </label>
-            <div className="mt-0 col-span-2">
-              <input
-                type="text"
-                name="role"
-                id="role"
-                value={state.role}
-                onChange={(e) => state.updateRole(e.currentTarget.value)}
-                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
-              />
-            </div>
-          </div>
+          {/* Title */}
+          <TextInput
+            name="title"
+            label="Title"
+            value={state.title}
+            onChange={(event) => {
+              console.log(event);
+            }}
+            onBlur={(event) => {
+              console.log(event);
+            }}
+            error="Test error"
+          />
+          {/* Role */}
+          <TextInput
+            name="role"
+            label="Role"
+            value={state.role}
+            onChange={(event) => {
+							state.updateRole(event.currentTarget.value)
+            }}
+            onBlur={(event) => {
+              console.log(event);
+            }}
+          />
         </div>
       </div>
 
