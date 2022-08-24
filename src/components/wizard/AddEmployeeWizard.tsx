@@ -18,6 +18,8 @@ interface AddEmployeeWizardState extends AddEmployeeWizardInput {
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
   reset: () => void;
+  resetErrors: () => void;
+  validate: () => Promise<boolean>;
 }
 
 const initialState: AddEmployeeWizardInput = {
@@ -28,7 +30,7 @@ const initialState: AddEmployeeWizardInput = {
 };
 
 export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
-  (set) => ({
+  (set, get) => ({
     ...initialState,
     errors: { ...initialState },
     updateName: (name) => {
@@ -44,7 +46,23 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
       set(() => ({ role: role }));
     },
     reset: () => {
-      set(() => ({ ...initialState }));
+      set({ ...initialState });
+    },
+    resetErrors: () => {
+      set((state) => ({ ...state, errors: { ...initialState } }));
+    },
+    validate: async () => {
+			get().resetErrors()
+      // Call async validation here (see https://github.com/pmndrs/zustand#async-actions)
+      if (get().title === "valid") {
+        return true;
+      } else {
+        set((state) => {
+          state.errors.title = "Invalid title";
+          return { ...state };
+        });
+        return false;
+      }
     },
   }),
 );

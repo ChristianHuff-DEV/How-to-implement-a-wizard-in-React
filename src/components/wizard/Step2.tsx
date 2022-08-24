@@ -1,10 +1,7 @@
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../TextInput";
-import {
-	StepProps,
-	useAddEmployeeWizardState
-} from "./AddEmployeeWizard";
+import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 export const validateTitle = (title: string) => {
   if (!title) {
@@ -17,10 +14,12 @@ const Step2 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    if (props.nextStepPath) {
+    const isValid = await state.validate();
+
+    if (isValid && props.nextStepPath) {
       navigate(props.nextStepPath);
     }
   };
@@ -45,7 +44,7 @@ const Step2 = (props: StepProps) => {
             onBlur={(event) => {
               console.log(event);
             }}
-            error="Test error"
+            error={state.errors.title}
           />
           {/* Role */}
           <TextInput
