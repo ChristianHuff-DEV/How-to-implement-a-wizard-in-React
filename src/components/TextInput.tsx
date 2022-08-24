@@ -12,15 +12,19 @@ interface TextInputProps {
    */
   value: string;
   /** Called anytime the value of the input changes */
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   /** Called anytime the input loses focus */
   onBlur?: FocusEventHandler<HTMLInputElement>;
   error?: string;
+  readOnly?: boolean;
+  className?: string;
 }
 
 const TextInput = (props: TextInputProps) => {
   return (
-    <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+    <div
+      className={`grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5 ${props.className}`}
+    >
       <label
         htmlFor={props.name}
         className="block text-sm font-medium text-gray-700 mt-px pt-2"
@@ -37,6 +41,7 @@ const TextInput = (props: TextInputProps) => {
             value={props.value}
             onChange={props.onChange}
             onBlur={props.onBlur}
+            readOnly={props.readOnly}
           />
         </div>
         {props.error && (

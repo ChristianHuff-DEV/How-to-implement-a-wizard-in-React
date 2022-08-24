@@ -1,108 +1,24 @@
-import React from "react";
-import {
-  FieldErrorsImpl,
-  FormState,
-  Path,
-  RegisterOptions,
-  SubmitHandler,
-  useForm,
-  UseFormRegister,
-} from "react-hook-form";
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../TextInput";
 import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
-
-/**
- * Defines the values handles by the form
- */
-interface Step1Inputs {
-  name: string;
-  email: string;
-}
-type InputProps<T> = {
-  label: string;
-  name: Path<T>;
-  register: UseFormRegister<T>;
-  formState: FormState<T>;
-  defaultValue?: string;
-  required?: boolean;
-  validate?: RegisterOptions<T>["validate"];
-  onChange?: (value: string) => void;
-  errors?: FieldErrorsImpl<T>;
-};
-
-// The following component is an example of your existing Input Component
-const Input = <T,>({
-  label,
-  name,
-  register,
-  required,
-  validate,
-  defaultValue,
-  onChange,
-  errors,
-}: InputProps<T>) => {
-  console.log(errors);
-
-  return (
-    <>
-      <label className="block text-md font-medium text-gray-700 mt-px pt-2">
-        {label}
-      </label>
-      <input
-        defaultValue={defaultValue}
-        {...register(name, {
-          required,
-          validate,
-          onChange: (e) => {
-            if (onChange && e.currentTarget) {
-              onChange(e.currentTarget.value);
-            }
-          },
-        })}
-        type="text"
-        className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
-      />
-    </>
-  );
-};
-
-// you can use React.forwardRef to pass the ref too
-const Select = React.forwardRef<
-  HTMLSelectElement,
-  { label: string } & ReturnType<UseFormRegister<Step1Inputs>>
->(({ onChange, onBlur, name, label }, ref) => (
-  <>
-    <label>{label}</label>
-    <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
-      <option value="20">20</option>
-      <option value="30">30</option>
-    </select>
-  </>
-));
 
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
-  const { register, handleSubmit, formState } = useForm<Step1Inputs>({
-    mode: "onSubmit",
-  });
 
-  const onSubmit: SubmitHandler<Step1Inputs> = (data) => {
-    console.log("submitting");
-    if (props.nextStepPath) {
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
+    const isValid = await state.validate();
+
+    if (isValid && props.nextStepPath) {
       navigate(props.nextStepPath);
-    }
-
-    if (data.name) {
-      state.updateName(data.name);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-8 divide-y divide-gray-200"
-    >
+    <form onSubmit={onSubmit} className="space-y-8 divide-y divide-gray-200">
       <div className="pt-2 space-y-5">
         <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -110,54 +26,30 @@ const Step1 = (props: StepProps) => {
           </h3>
         </div>
         <div className="space-y-5">
-          <div className="grid grid-cols-2 gap-4 items-start border-t border-gray-200 pt-5">
-            <Select label="Email" {...register("email")} />
-            <Input
-              defaultValue={state.name}
-              name="name"
-              label="Name"
-              formState={formState}
-              register={register}
-              required
-              validate={{
-                notFail: (v) => {
-                  console.log("validate");
-                  if (v !== "fail") {
-                    console.log("valid");
-                    return true;
-                  } else {
-                    const error = "invalid value";
-                    console.log(error);
-                    return error;
-                  }
-                },
-              }}
-              onChange={(value) => state.updateName(value)}
-            />
-            {/* <label
-              htmlFor="name"
-              className="block text-md font-medium text-gray-700 mt-px pt-2"
-            >
-              Name
-            </label>
-            <div className="mt-0 col-span-2">
-              <input
-                {...register("name", {
-                  validate: {
-                    first: (v) => v !== "fail" || "fail if input is 'fail'",
-                  },
-                })}
-                type="text"
-                defaultValue={state.name}
-                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 max-w-xs text-sm border-gray-300 rounded-md"
-              />
-              {errors.name && (
-                <p className="mt-2 text-sm text-red-600" id="email-error">
-                  {errors.name.message}
-                </p>
-              )}
-            </div> */}
-          </div>
+          <TextInput
+            name="name"
+            label="Name"
+            value={state.name}
+            error={state.errors.name}
+            onChange={(event) => {
+              state.updateName(event.currentTarget.value);
+            }}
+            onBlur={() => {
+							state.validate()
+            }}
+          />
+          <TextInput
+            name="email"
+            label="Email"
+            value={state.email}
+            error={state.errors.email}
+            onChange={(event) => {
+              state.updateEmail(event.currentTarget.value);
+            }}
+            onBlur={() => {
+							state.validate()
+            }}
+          />
         </div>
       </div>
 
@@ -166,7 +58,7 @@ const Step1 = (props: StepProps) => {
           <button
             type="button"
             onClick={() => {
-              state.reset();
+							state.reset()
               navigate("/employees");
             }}
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

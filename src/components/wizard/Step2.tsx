@@ -3,13 +3,6 @@ import { useNavigate } from "react-router-dom";
 import TextInput from "../TextInput";
 import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
-export const validateTitle = (title: string) => {
-  if (!title) {
-    return "Tittle cannot be empty";
-  }
-  return "";
-};
-
 const Step2 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
@@ -33,29 +26,28 @@ const Step2 = (props: StepProps) => {
           </h3>
         </div>
         <div className="space-y-5">
-          {/* Title */}
           <TextInput
             name="title"
             label="Title"
             value={state.title}
+            error={state.errors.title}
             onChange={(event) => {
               state.updateTitle(event.currentTarget.value);
             }}
-            onBlur={(event) => {
-              console.log(event);
+            onBlur={() => {
+							state.validate()
             }}
-            error={state.errors.title}
           />
-          {/* Role */}
           <TextInput
             name="role"
             label="Role"
             value={state.role}
+            error={state.errors.role}
             onChange={(event) => {
               state.updateRole(event.currentTarget.value);
             }}
-            onBlur={(event) => {
-              console.log(event);
+            onBlur={() => {
+							state.validate()
             }}
           />
         </div>
@@ -66,6 +58,7 @@ const Step2 = (props: StepProps) => {
           <button
             type="button"
             onClick={() => {
+							state.reset()
               navigate("/employees");
             }}
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
