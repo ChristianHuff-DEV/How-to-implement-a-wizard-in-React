@@ -9,7 +9,7 @@ export const validate = ({ name }: Step1FormInput): Promise<postDataResult<Step1
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			if (name === "Fred") {
-				resolve({ success: false, errors: { name: ["The name must be unique"], }, });
+				resolve({ success: false, errors: { name: ["Name already taken"], }, });
 			} else {
 				resolve({ success: true });
 			}
