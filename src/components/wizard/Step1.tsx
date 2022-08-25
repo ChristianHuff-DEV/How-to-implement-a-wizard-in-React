@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { StepProps } from "./AddEmployeeWizard";
 
-type Step1FormInput = {
+export type Step1FormInput = {
   name: string;
 };
 
@@ -12,7 +12,7 @@ const Step1 = (props: StepProps) => {
   const {
     register,
     handleSubmit,
-    watch,
+		setError,
     formState: { errors },
   } = useForm<Step1FormInput>();
   const onSubmit: SubmitHandler<Step1FormInput> = (data) => console.log(data);
