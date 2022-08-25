@@ -1,10 +1,27 @@
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { StepProps } from "./AddEmployeeWizard";
 
+type Step1FormInput = {
+  name: string;
+};
+
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Step1FormInput>();
+  const onSubmit: SubmitHandler<Step1FormInput> = (data) => console.log(data);
+
   return (
-    <form className="space-y-8 divide-y divide-gray-200">
+    <form
+      className="space-y-8 divide-y divide-gray-200"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="pt-10 space-y-5">
         <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -15,22 +32,22 @@ const Step1 = (props: StepProps) => {
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
             <label
-              htmlFor="first-name"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              First name
+              Name
             </label>
             <div className="mt-0 col-span-2">
               <input
-                type="text"
-                name="first-name"
-                id="first-name"
-                autoComplete="given-name"
+								type="text"
+								{...register("name", { required: true })}
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
               />
-              <p className="mt-2 text-sm text-red-600" id="email-error">
-                Your password must be less than 4 characters.
-              </p>
+							{errors.name?.type === "required" &&
+								<p className="mt-2 text-sm text-red-600" id="email-error">
+									Name must be defined
+								</p>
+							}
             </div>
           </div>
 
