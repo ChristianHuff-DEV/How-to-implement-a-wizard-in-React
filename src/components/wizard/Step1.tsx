@@ -39,15 +39,17 @@ const Step1 = (props: StepProps) => {
             </label>
             <div className="mt-0 col-span-2">
               <input
-								type="text"
-								{...register("name", { required: true })}
+                type="text"
+                {...register("name", {
+                  required: { value: true, message: "Name must be filled" },
+                })}
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
               />
-							{errors.name?.type === "required" &&
-								<p className="mt-2 text-sm text-red-600" id="email-error">
-									Name must be defined
-								</p>
-							}
+              {errors.name && (
+                <p className="mt-2 text-sm text-red-600" id="email-error">
+									{errors.name.message}
+                </p>
+              )}
             </div>
           </div>
 
