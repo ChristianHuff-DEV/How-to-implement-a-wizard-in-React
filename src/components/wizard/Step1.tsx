@@ -1,55 +1,40 @@
-import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../TextInput";
-import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
+import { StepProps } from "./AddEmployeeWizard";
 
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
-  const state = useAddEmployeeWizardState((state) => state);
-
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-
-    const isValid = await state.validate();
-
-    if (isValid && props.nextStepPath) {
-      navigate(props.nextStepPath);
-    }
-  };
-
   return (
-    <form onSubmit={onSubmit} className="space-y-8 divide-y divide-gray-200">
-      <div className="pt-2 space-y-5">
+    <form className="space-y-8 divide-y divide-gray-200">
+      <div className="pt-10 space-y-5">
         <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
             Personal Information
           </h3>
         </div>
+
         <div className="space-y-5">
-          <TextInput
-            name="name"
-            label="Name"
-            value={state.name}
-            error={state.errors.name}
-            onChange={(event) => {
-              state.updateName(event.currentTarget.value);
-            }}
-            onBlur={() => {
-							state.validate()
-            }}
-          />
-          <TextInput
-            name="email"
-            label="Email"
-            value={state.email}
-            error={state.errors.email}
-            onChange={(event) => {
-              state.updateEmail(event.currentTarget.value);
-            }}
-            onBlur={() => {
-							state.validate()
-            }}
-          />
+          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+            <label
+              htmlFor="first-name"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              First name
+            </label>
+            <div className="mt-0 col-span-2">
+              <input
+                type="text"
+                name="first-name"
+                id="first-name"
+                autoComplete="given-name"
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
+              />
+              <p className="mt-2 text-sm text-red-600" id="email-error">
+                Your password must be less than 4 characters.
+              </p>
+            </div>
+          </div>
+
+          {/* Add additional fields here*/}
         </div>
       </div>
 
@@ -58,7 +43,6 @@ const Step1 = (props: StepProps) => {
           <button
             type="button"
             onClick={() => {
-							state.reset()
               navigate("/employees");
             }}
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
