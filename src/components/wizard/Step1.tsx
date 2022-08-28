@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { validate } from "../../api/ValidationApi";
+import { validate, ValidationResult } from "../../api/ValidationApi";
 import { StepProps } from "./AddEmployeeWizard";
 
 export type Step1FormInput = {
@@ -16,26 +16,20 @@ const Step1 = (props: StepProps) => {
     formState: { errors },
   } = useForm<Step1FormInput>();
 
-  function addServerErrors<T>(
-    errors: { [P in keyof T]?: string[] },
-    setError: (
-      fieldName: keyof T,
-      error: { type: string; message: string },
-    ) => void,
-  ) {
-    return Object.keys(errors).forEach((key) => {
-      setError(key as keyof T, {
-        type: "server",
-        message: errors[key as keyof T]!.join(". "),
-      });
-    });
-  }
+  /**
+   * Map the errors received from the server to th
+   */
+  const mapErrors = (result: ValidationResult) => {
+    if (result.errors?.name) {
+      setError("name", { type: "server", message: result.errors.name });
+    }
+  };
 
   const onSubmit: SubmitHandler<Step1FormInput> = async (data) => {
     console.log(data);
     const validationResult = await validate(data);
     if (!validationResult.success && validationResult.errors) {
-      addServerErrors(validationResult.errors, setError);
+      mapErrors(validationResult);
     }
   };
 
