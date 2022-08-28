@@ -35,8 +35,11 @@ const Step1 = (props: StepProps) => {
 
   const onSubmit: SubmitHandler<Step1FormInput> = async (data) => {
     const validationResult = await validate(data);
-    if (!validationResult.success && validationResult.errors) {
+    if (!validationResult.isValid && validationResult.errors) {
       mapErrors(validationResult);
+    } else if (props.nextStepPath) {
+			// Send the user to the next step if the validation succeeded
+      navigate(props.nextStepPath);
     }
   };
 
@@ -66,7 +69,7 @@ const Step1 = (props: StepProps) => {
                 {...register("name", {
                   required: { value: true, message: "Name must be filled" },
                 })}
-								defaultValue={state.name}
+                defaultValue={state.name}
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
               />
               {errors.name && (

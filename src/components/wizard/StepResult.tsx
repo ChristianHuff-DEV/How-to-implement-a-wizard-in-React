@@ -30,7 +30,7 @@ const StepResult = () => {
 		console.log(data)
     const validationResult = await validate(data);
 		console.log(validationResult)
-    if (!validationResult.success && validationResult.errors) {
+    if (!validationResult.isValid && validationResult.errors) {
       mapErrors(validationResult);
     }
   };
