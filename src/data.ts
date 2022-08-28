@@ -1,3 +1,11 @@
+interface Employee {
+	id: number;
+	name: string;
+	title: string;
+	email: string;
+	role: string;
+}
+
 let employees = [
 	{
 		id: 1,
@@ -17,4 +25,9 @@ let employees = [
 
 export function getEmployees() {
 	return employees;
+}
+
+export function addEmployee(name: string, title: string, email: string, role: string) {
+	const id = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 0 + 1)) + 0;
+	employees.push({ id, name, title, email, role })
 }

@@ -1,7 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
-import { AddEmployeeWizardInput, useAddEmployeeWizardState } from "./AddEmployeeWizard";
+import { addEmployee } from "../../data";
+import {
+  AddEmployeeWizardInput,
+  useAddEmployeeWizardState,
+} from "./AddEmployeeWizard";
 
 const StepResult = () => {
   const navigate = useNavigate();
@@ -10,9 +14,10 @@ const StepResult = () => {
     handleSubmit,
     setError,
     formState: { errors },
-	} = useForm<AddEmployeeWizardInput>(
-		// Initialize using the state
-		{ defaultValues: { ...state } });
+  } = useForm<AddEmployeeWizardInput>(
+    // Initialize using the state
+    { defaultValues: { ...state } },
+  );
 
   /**
    * Map the errors received from the server to th
@@ -24,11 +29,12 @@ const StepResult = () => {
   };
 
   const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
-		console.log(data)
     const validationResult = await validate(data);
-		console.log(validationResult)
     if (!validationResult.isValid && validationResult.errors) {
       mapErrors(validationResult);
+    } else {
+      // Save the data
+      addEmployee(data.name, data.title, data.email, data.role);
     }
   };
 

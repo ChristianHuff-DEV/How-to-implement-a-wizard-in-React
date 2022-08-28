@@ -2,9 +2,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
 import {
-	AddEmployeeWizardInput,
-	StepProps,
-	useAddEmployeeWizardState
+  AddEmployeeWizardInput,
+  StepProps,
+  useAddEmployeeWizardState,
 } from "./AddEmployeeWizard";
 
 const Step1 = (props: StepProps) => {
@@ -13,11 +13,9 @@ const Step1 = (props: StepProps) => {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
     formState: { errors },
   } = useForm<AddEmployeeWizardInput>();
-  const watchName = watch("name");
 
   /**
    * Map the errors received from the server to th
