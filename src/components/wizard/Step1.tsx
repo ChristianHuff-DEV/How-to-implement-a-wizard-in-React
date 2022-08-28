@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
-import { StepProps } from "./AddEmployeeWizard";
+import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 export type Step1FormInput = {
   name: string;
@@ -9,12 +10,19 @@ export type Step1FormInput = {
 
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
+  const state = useAddEmployeeWizardState((state) => state);
   const {
     register,
     handleSubmit,
+    watch,
     setError,
     formState: { errors },
   } = useForm<Step1FormInput>();
+  const watchName = watch("name");
+
+  useEffect(() => {
+    state.updateName(watchName);
+  }, [watchName]);
 
   /**
    * Map the errors received from the server to th
@@ -26,7 +34,6 @@ const Step1 = (props: StepProps) => {
   };
 
   const onSubmit: SubmitHandler<Step1FormInput> = async (data) => {
-    console.log(data);
     const validationResult = await validate(data);
     if (!validationResult.success && validationResult.errors) {
       mapErrors(validationResult);
@@ -59,6 +66,7 @@ const Step1 = (props: StepProps) => {
                 {...register("name", {
                   required: { value: true, message: "Name must be filled" },
                 })}
+								defaultValue={state.name}
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
               />
               {errors.name && (
