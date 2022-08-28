@@ -1,10 +1,7 @@
-import { FormEvent } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
-import TextInput from "../TextInput";
-import { useAddEmployeeWizardState } from "./AddEmployeeWizard";
-import { Step1FormInput } from "./Step1";
+import { AddEmployeeWizardInput, useAddEmployeeWizardState } from "./AddEmployeeWizard";
 
 const StepResult = () => {
   const navigate = useNavigate();
@@ -13,7 +10,7 @@ const StepResult = () => {
     handleSubmit,
     setError,
     formState: { errors },
-	} = useForm<Step1FormInput>(
+	} = useForm<AddEmployeeWizardInput>(
 		// Initialize using the state
 		{ defaultValues: { ...state } });
 
@@ -26,7 +23,7 @@ const StepResult = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<Step1FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
 		console.log(data)
     const validationResult = await validate(data);
 		console.log(validationResult)

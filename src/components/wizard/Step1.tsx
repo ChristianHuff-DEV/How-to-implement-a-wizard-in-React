@@ -1,12 +1,11 @@
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
-import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
-
-export type Step1FormInput = {
-  name: string;
-};
+import {
+	AddEmployeeWizardInput,
+	StepProps,
+	useAddEmployeeWizardState
+} from "./AddEmployeeWizard";
 
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
@@ -17,12 +16,8 @@ const Step1 = (props: StepProps) => {
     watch,
     setError,
     formState: { errors },
-  } = useForm<Step1FormInput>();
+  } = useForm<AddEmployeeWizardInput>();
   const watchName = watch("name");
-
-  useEffect(() => {
-    state.updateName(watchName);
-  }, [watchName]);
 
   /**
    * Map the errors received from the server to th
@@ -33,12 +28,12 @@ const Step1 = (props: StepProps) => {
     }
   };
 
-  const onSubmit: SubmitHandler<Step1FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
     const validationResult = await validate(data);
     if (!validationResult.isValid && validationResult.errors) {
       mapErrors(validationResult);
     } else if (props.nextStepPath) {
-			// Send the user to the next step if the validation succeeded
+      // Send the user to the next step if the validation succeeded
       navigate(props.nextStepPath);
     }
   };
@@ -67,6 +62,10 @@ const Step1 = (props: StepProps) => {
               <input
                 type="text"
                 {...register("name", {
+                  // react-hook-form doesn't provide a type for the event (see https://github.com/react-hook-form/react-hook-form/issues/6018#issuecomment-884098167)
+                  onChange: (event) => {
+                    state.updateName(event.currentTarget.value);
+                  },
                   required: { value: true, message: "Name must be filled" },
                 })}
                 defaultValue={state.name}

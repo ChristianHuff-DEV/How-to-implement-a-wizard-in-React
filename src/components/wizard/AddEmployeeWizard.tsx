@@ -46,7 +46,7 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
       set(() => ({ role: role }));
     },
     reset: () => {
-			get().resetErrors()
+      get().resetErrors();
       set({ ...initialState });
     },
     resetErrors: () => {
