@@ -24,6 +24,9 @@ const Step1 = (props: StepProps) => {
     if (result.errors?.name) {
       setError("name", { type: "server", message: result.errors.name });
     }
+    if (result.errors?.email) {
+      setError("email", { type: "server", message: result.errors.email });
+    }
   };
 
   const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
@@ -47,7 +50,7 @@ const Step1 = (props: StepProps) => {
             Personal Information
           </h3>
         </div>
-
+        {/* Title */}
         <div className="space-y-5">
           <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
             <label
@@ -70,14 +73,40 @@ const Step1 = (props: StepProps) => {
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
               />
               {errors.name && (
-                <p className="mt-2 text-sm text-red-600" id="email-error">
+                <p className="mt-2 text-sm text-red-600">
                   {errors.name.message}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Add additional fields here*/}
+          {/* Email */}
+          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Email
+            </label>
+            <div className="mt-0 col-span-2">
+              <input
+                type="text"
+                {...register("email", {
+                  onChange: (event) => {
+                    state.updateEmail(event.currentTarget.value);
+                  },
+                  required: { value: true, message: "Email must be filled" },
+                })}
+                defaultValue={state.email}
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
+              />
+              {errors.email && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -86,6 +115,7 @@ const Step1 = (props: StepProps) => {
           <button
             type="button"
             onClick={() => {
+							state.reset()
               navigate("/employees");
             }}
             className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

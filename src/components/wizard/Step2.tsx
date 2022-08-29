@@ -1,55 +1,111 @@
-import { FormEvent } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../TextInput";
-import { StepProps, useAddEmployeeWizardState } from "./AddEmployeeWizard";
+import { validate, ValidationResult } from "../../api/ValidationApi";
+import {
+  AddEmployeeWizardInput,
+  StepProps,
+  useAddEmployeeWizardState,
+} from "./AddEmployeeWizard";
 
 const Step2 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<AddEmployeeWizardInput>();
 
-  const onSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  /**
+   * Map the errors received from the server to th
+   */
+  const mapErrors = (result: ValidationResult) => {
+    if (result.errors?.title) {
+      setError("title", { type: "server", message: result.errors.title });
+    }
+    if (result.errors?.role) {
+      setError("role", { type: "server", message: result.errors.role });
+    }
+  };
 
-    const isValid = await state.validate();
-
-    if (isValid && props.nextStepPath) {
+  const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
+    const validationResult = await validate(data);
+    if (!validationResult.isValid && validationResult.errors) {
+      mapErrors(validationResult);
+    } else if (props.nextStepPath) {
+      // Send the user to the next step if the validation succeeded
       navigate(props.nextStepPath);
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8 divide-y divide-gray-200">
-      <div className="pt-2 space-y-5">
+    <form
+      className="space-y-8 divide-y divide-gray-200"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="pt-10 space-y-5">
         <div>
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Personal Information
+            Job Details
           </h3>
         </div>
+        {/* Title */}
         <div className="space-y-5">
-          <TextInput
-            name="title"
-            label="Title"
-            value={state.title}
-            error={state.errors.title}
-            onChange={(event) => {
-              state.updateTitle(event.currentTarget.value);
-            }}
-            onBlur={() => {
-							state.validate()
-            }}
-          />
-          <TextInput
-            name="role"
-            label="Role"
-            value={state.role}
-            error={state.errors.role}
-            onChange={(event) => {
-              state.updateRole(event.currentTarget.value);
-            }}
-            onBlur={() => {
-							state.validate()
-            }}
-          />
+          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Title
+            </label>
+            <div className="mt-0 col-span-2">
+              <input
+                type="text"
+                {...register("title", {
+                  onChange: (event) => {
+                    state.updateTitle(event.currentTarget.value);
+                  },
+                  required: { value: true, message: "Title must be filled" },
+                })}
+                defaultValue={state.title}
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
+              />
+              {errors.title && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Role */}
+          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Role
+            </label>
+            <div className="mt-0 col-span-2">
+              <input
+                type="text"
+                {...register("role", {
+                  onChange: (event) => {
+                    state.updateRole(event.currentTarget.value);
+                  },
+                  required: { value: true, message: "Role must be filled" },
+                })}
+                defaultValue={state.role}
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
+              />
+              {errors.role && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.role.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

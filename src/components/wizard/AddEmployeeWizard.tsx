@@ -18,8 +18,6 @@ interface AddEmployeeWizardState extends AddEmployeeWizardInput {
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
   reset: () => void;
-  resetErrors: () => void;
-  validate: () => Promise<boolean>;
 }
 
 const initialState: AddEmployeeWizardInput = {
@@ -30,7 +28,7 @@ const initialState: AddEmployeeWizardInput = {
 };
 
 export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
-  (set, get) => ({
+  (set) => ({
     ...initialState,
     errors: { ...initialState },
     updateName: (name) => {
@@ -46,32 +44,7 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
       set(() => ({ role: role }));
     },
     reset: () => {
-      get().resetErrors();
       set({ ...initialState });
-    },
-    resetErrors: () => {
-      set((state) => ({ ...state, errors: { ...initialState } }));
-    },
-    validate: async () => {
-      get().resetErrors();
-      // Call async validation here (see https://github.com/pmndrs/zustand#async-actions)
-      if (
-        get().email === "valid" &&
-        get().name === "valid" &&
-        get().title === "valid" &&
-        get().role === "valid"
-      ) {
-        return true;
-      } else {
-        set((state) => {
-          state.errors.email = "Invalid Email";
-          state.errors.name = "Invalid Name";
-          state.errors.title = "Invalid Title";
-          state.errors.role = "Invalid Role";
-          return { ...state };
-        });
-        return false;
-      }
     },
   }),
 );
