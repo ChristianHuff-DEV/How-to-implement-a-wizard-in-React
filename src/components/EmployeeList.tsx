@@ -38,7 +38,7 @@ const EmployeeList = () => {
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
                 {getEmployees().map((employee) => (
-                  <tr key={employee.email}>
+                  <tr key={employee.id}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-medium text-indigo-700 ">
                       <Link to={`/employees/${employee.id}`} className="hover:border-b-2 hover:border-indigo-700">
                         {employee.name}

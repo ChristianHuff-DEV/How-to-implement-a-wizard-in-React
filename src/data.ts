@@ -1,11 +1,3 @@
-interface Employee {
-	id: number;
-	name: string;
-	title: string;
-	email: string;
-	role: string;
-}
-
 let employees = [
 	{
 		id: 1,

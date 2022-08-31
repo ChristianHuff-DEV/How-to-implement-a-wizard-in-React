@@ -44,6 +44,9 @@ const StepResult = () => {
     } else {
       // Save the data
       addEmployee(data.name, data.title, data.email, data.role);
+      state.reset();
+
+      navigate("/employees");
     }
   };
 
