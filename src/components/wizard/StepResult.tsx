@@ -8,6 +8,10 @@ import {
 } from "./AddEmployeeWizard";
 import TextInput from "./TextInput";
 
+/**
+ * The final step of the wizard showing the data entered in the previous steps and handling the
+ * submission of the form to persist the data.
+ */
 const StepResult = () => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
@@ -22,23 +26,29 @@ const StepResult = () => {
   );
 
   /**
-   * Map the errors received from the server to th
+   * Map the errors received from the server to the form state.
    */
   const mapErrors = (result: ValidationResult) => {
     if (result.errors?.name) {
-      setError("name", { type: "server", message: result.errors.name });
+      setError("name", { message: result.errors.name });
     }
     if (result.errors?.email) {
-      setError("email", { type: "server", message: result.errors.email });
+      setError("email", { message: result.errors.email });
     }
     if (result.errors?.title) {
-      setError("title", { type: "server", message: result.errors.title });
+      setError("title", { message: result.errors.title });
     }
     if (result.errors?.role) {
-      setError("role", { type: "server", message: result.errors.role });
+      setError("role", { message: result.errors.role });
     }
   };
 
+  /**
+   * Submits the form.
+   *
+   * First triggers the server side validation. If it succeeds the data is saved, the form wide
+   * state reset and the user forwarded to the employees overview.
+   */
   const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
     const validationResult = await validate(data);
     if (!validationResult.isValid && validationResult.errors) {

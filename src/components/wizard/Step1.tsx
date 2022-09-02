@@ -1,15 +1,17 @@
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
 import {
   AddEmployeeWizardInput,
-  StepProps,
   useAddEmployeeWizardState,
+  WizardStepProps,
 } from "./AddEmployeeWizard";
 import TextInput from "./TextInput";
 
-const Step1 = (props: StepProps) => {
+/**
+ * First step of the wizard allowing the user to define the name and email of a new employee.
+ */
+const Step1 = (props: WizardStepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
   const {
@@ -20,17 +22,23 @@ const Step1 = (props: StepProps) => {
   } = useForm<AddEmployeeWizardInput>();
 
   /**
-   * Map the errors received from the server to th
+   * Map the validation result to the error state of the form.
    */
   const mapErrors = (result: ValidationResult) => {
     if (result.errors?.name) {
-      setError("name", { type: "server", message: result.errors.name });
+      setError("name", { message: result.errors.name });
     }
     if (result.errors?.email) {
-      setError("email", { type: "server", message: result.errors.email });
+      setError("email", { message: result.errors.email });
     }
   };
 
+  /**
+   * Handle the submit of the form.
+   *
+   * Triggers the server side validation. If the validation succeeds the user is forwarded to the
+   * next step. If it fails the user is shown the error messages.
+   */
   const onSubmit: SubmitHandler<AddEmployeeWizardInput> = async (data) => {
     const validationResult = await validate(data);
     if (!validationResult.isValid && validationResult.errors) {

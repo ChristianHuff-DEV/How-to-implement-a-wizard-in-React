@@ -1,3 +1,6 @@
+/**
+ * Generic error message indicating to the user that an unknown route was opened.
+ */
 const Error404 = () => {
   return (
     <div className="text-gray-600 body-font">

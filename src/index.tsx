@@ -18,6 +18,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
+          {/* All routes on this level will be rendered in the <Outlet /> of the App component */}
           <Route path="/" element={<Home />} />
           <Route path="employees/*" element={<EmployeesOverview />}>
             {/*

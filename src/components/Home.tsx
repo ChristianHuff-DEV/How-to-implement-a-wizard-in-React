@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+/**
+ * The root page of the application showing a call-to-action to create a new employee.
+ */
 const Home = () => {
   return (
     <div className="container mx-auto ">

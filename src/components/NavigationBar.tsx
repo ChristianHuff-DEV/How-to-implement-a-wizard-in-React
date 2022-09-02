@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Navigation bar that allows the user to jump between the home page and employees overview.
+ */
 const NavigationBar = () => {
   return (
     <div className="px-2 border-transparent border-b-2 border-gray-300">

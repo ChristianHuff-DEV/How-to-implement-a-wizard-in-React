@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { getEmployees } from "../data";
 
+/**
+ *  Displays a list of all employees.
+ */
 const EmployeeList = () => {
   return (
     <div className="mt-8 flex flex-col">
@@ -40,7 +43,10 @@ const EmployeeList = () => {
                 {getEmployees().map((employee) => (
                   <tr key={employee.id}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-md font-medium text-indigo-700 ">
-                      <Link to={`/employees/${employee.id}`} className="hover:border-b-2 hover:border-indigo-700">
+                      <Link
+                        to={`/employees/${employee.id}`}
+                        className="hover:border-b-2 hover:border-indigo-700"
+                      >
                         {employee.name}
                       </Link>
                     </td>

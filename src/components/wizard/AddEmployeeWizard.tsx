@@ -4,6 +4,9 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import StepResult from "./StepResult";
 
+/**
+ * Defines the input the form captures.
+ */
 export interface AddEmployeeWizardInput {
   name: string;
   email: string;
@@ -11,15 +14,23 @@ export interface AddEmployeeWizardInput {
   role: string;
 }
 
+/**
+ * Defines the state which tracks the input for all steps of the wizard.
+ */
 interface AddEmployeeWizardState extends AddEmployeeWizardInput {
-  errors: AddEmployeeWizardInput;
   updateName: (name: string) => void;
   updateEmail: (email: string) => void;
   updateTitle: (title: string) => void;
   updateRole: (role: string) => void;
+  /**
+   * Reset the state to its initial state.
+   */
   reset: () => void;
 }
 
+/**
+ * The initial value of the state.
+ */
 const initialState: AddEmployeeWizardInput = {
   name: "",
   email: "",
@@ -27,6 +38,9 @@ const initialState: AddEmployeeWizardInput = {
   role: "",
 };
 
+/**
+ * Create the state and implement its logic.
+ */
 export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
   (set) => ({
     ...initialState,
@@ -49,46 +63,66 @@ export const useAddEmployeeWizardState = create<AddEmployeeWizardState>(
   }),
 );
 
-interface Step {
-  id: string;
-  name: string;
-  to: string;
-  element: JSX.Element;
-}
-
-export interface StepProps {
+/**
+ * The properties each step gets passed.
+ */
+export interface WizardStepProps {
   /**Path to the next step (if there is one)*/
   nextStepPath?: string;
 }
 
+/**
+ * Defines a step
+ */
+interface Step {
+  /**
+   * Name that identifies a step in the navigation bar
+   */
+  name: string;
+  /**
+   * The route of the step
+   */
+  to: string;
+  /**
+   * The element rendered to be the step
+   */
+  element: JSX.Element;
+}
+
+/**
+ * Defines the steps the wizard consists out of.
+ *
+ * The steps will be shown in the order they are defined here.
+ */
 const steps: Step[] = [
   {
-    id: "Step 1",
     name: "Personal Details",
     to: "/employees/addEmployee/step1",
     element: <Step1 nextStepPath="/employees/addEmployee/step2" />,
   },
   {
-    id: "Step 2",
     name: "Job Details",
     to: "/employees/addEmployee/step2",
     element: <Step2 nextStepPath="/employees/addEmployee/summary" />,
   },
   {
-    id: "Step 3",
     name: "Summary",
     to: "/employees/addEmployee/summary",
     element: <StepResult />,
   },
 ];
 
+/**
+ * Component responsible to render the individual steps and navigation of the wizard
+ */
 const AddEmployeeWizard = () => {
   return (
     <>
-      {/* The routes defined here will be rendered in the <Outlet /> in the component of the parent path. */}
+      {/* The routes defined here will be rendered in the <Outlet /> in the component of the parent path.
+			    In this case the EmployeesOverview component. */}
       <Routes>
         {steps.map((step) => {
-          // Get the last part of the url. This is the relative url for the steps path
+          // Get the last part of the url. This is the relative url for the steps path.
           const urlParts = step.to.split("/");
           const path = urlParts[urlParts.length - 1];
 
@@ -100,7 +134,11 @@ const AddEmployeeWizard = () => {
   );
 };
 
-function WizardProgress() {
+/**
+ * Component indicating the step of the form the user is in. Allows to freely navigate between
+ * the different steps.
+ */
+const WizardProgress = () => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -119,9 +157,8 @@ function WizardProgress() {
                 } `}
               >
                 <span className="text-xs text-indigo-600 font-semibold tracking-wide uppercase group-hover:text-indigo-800">
-                  {step.id}
+                  {step.name}
                 </span>
-                <span className="text-sm font-medium">{step.name}</span>
               </Link>
             </li>
           );
@@ -129,6 +166,6 @@ function WizardProgress() {
       </ol>
     </div>
   );
-}
+};
 
 export default AddEmployeeWizard;
