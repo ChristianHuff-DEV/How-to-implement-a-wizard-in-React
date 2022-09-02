@@ -12,8 +12,12 @@ import TextInput from "./TextInput";
 const Step1 = (props: StepProps) => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
-  const { register, handleSubmit, setError, formState } =
-    useForm<AddEmployeeWizardInput>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<AddEmployeeWizardInput>();
 
   /**
    * Map the errors received from the server to th
@@ -48,76 +52,32 @@ const Step1 = (props: StepProps) => {
             Personal Information
           </h3>
         </div>
-        {/* Name */}
         <div className="space-y-5">
+          {/* Name */}
           <TextInput
             label="Name"
             {...register("name", {
               // react-hook-form doesn't provide a type for the event (see https://github.com/react-hook-form/react-hook-form/issues/6018#issuecomment-884098167)
-							onChange: (event) => {
-								state.updateName(event.currentTarget.value)
-							},
+              onChange: (event) => {
+                state.updateName(event.currentTarget.value);
+              },
               required: { value: true, message: "Name must be filled" },
             })}
             defaultValue={state.name}
-            error={formState.errors.name?.message}
+            error={errors.name?.message}
           />
-
-          {/* <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Name
-            </label>
-            <div className="mt-0 col-span-2">
-              <input
-                type="text"
-                {...register("name", {
-                  // react-hook-form doesn't provide a type for the event (see https://github.com/react-hook-form/react-hook-form/issues/6018#issuecomment-884098167)
-                  onChange: (event) => {
-                    state.updateName(event.currentTarget.value);
-                  },
-                  required: { value: true, message: "Name must be filled" },
-                })}
-                defaultValue={state.name}
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
-              />
-              {formState.errors.name && (
-                <p className="mt-2 text-sm text-red-600">
-                  {formState.errors.name.message}
-                </p>
-              )}
-            </div>
-          </div> */}
-
           {/* Email */}
-          <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Email
-            </label>
-            <div className="mt-0 col-span-2">
-              <input
-                type="text"
-                {...register("email", {
-                  onChange: (event) => {
-                    state.updateEmail(event.currentTarget.value);
-                  },
-                  required: { value: true, message: "Email must be filled" },
-                })}
-                defaultValue={state.email}
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
-              />
-              {formState.errors.email && (
-                <p className="mt-2 text-sm text-red-600">
-                  {formState.errors.email.message}
-                </p>
-              )}
-            </div>
-          </div>
+          <TextInput
+            label="Email"
+            {...register("email", {
+              onChange: (event) => {
+                state.updateEmail(event.currentTarget.value);
+              },
+              required: { value: true, message: "Email must be filled" },
+            })}
+            defaultValue={state.email}
+            error={errors.email?.message}
+          />
         </div>
       </div>
 
