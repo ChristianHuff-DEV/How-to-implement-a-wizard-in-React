@@ -23,11 +23,9 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         <div className="mt-0 col-span-2">
           <input
             ref={ref}
+						name={props.name}
             type="text"
-            onChange={(event) => {
-              console.log("TextInput.onChange");
-              props.onChange(event);
-            }}
+            onChange={props.onChange}
             onBlur={props.onBlur}
             defaultValue={props.defaultValue}
             className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"

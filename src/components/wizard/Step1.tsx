@@ -55,7 +55,7 @@ const Step1 = (props: StepProps) => {
             {...register("name", {
               // react-hook-form doesn't provide a type for the event (see https://github.com/react-hook-form/react-hook-form/issues/6018#issuecomment-884098167)
 							onChange: (event) => {
-								console.log("Form.onChange")
+								state.updateName(event.currentTarget.value)
 							},
               required: { value: true, message: "Name must be filled" },
             })}
