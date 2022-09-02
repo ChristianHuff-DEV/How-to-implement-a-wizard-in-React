@@ -6,11 +6,13 @@ import {
   AddEmployeeWizardInput,
   useAddEmployeeWizardState,
 } from "./AddEmployeeWizard";
+import TextInput from "./TextInput";
 
 const StepResult = () => {
   const navigate = useNavigate();
   const state = useAddEmployeeWizardState((state) => state);
   const {
+    register,
     handleSubmit,
     setError,
     formState: { errors },
@@ -53,101 +55,45 @@ const StepResult = () => {
   return (
     <form className="container py-5" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-3 gap-4 items-start border-t border-gray-200 pt-5">
-        {/* Name */}
         <div className="col-span-2">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mt-px pt-2"
-          >
-            Name
-          </label>
-          <div className="mt-0">
-            <div className="max-w-lg flex rounded-md shadow-sm">
-              <input
-                className="flex-1 block w-full text-gray-500 focus:ring-gray-300 focus:border-gray-300 min-w-0 rounded-md sm:text-sm border-gray-300"
-                type="text"
-                name="name"
-                value={state.name}
-                readOnly
-              />
-            </div>
-            {errors.name && (
-              <p className="mt-2 text-sm text-red-600">{errors.name.message}</p>
-            )}
-          </div>
+          <TextInput
+            readOnly
+            label="Name"
+            {...register("name", {
+              required: { value: true, message: "Name must be filled" },
+            })}
+            error={errors.name?.message}
+          />
         </div>
-        {/* Email */}
         <div className="col-span-2">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mt-px pt-2"
-          >
-            Email
-          </label>
-          <div className="mt-0">
-            <div className="max-w-lg flex rounded-md shadow-sm">
-              <input
-                className="flex-1 block w-full text-gray-500 focus:ring-gray-300 focus:border-gray-300 min-w-0 rounded-md sm:text-sm border-gray-300"
-                type="text"
-                name="email"
-                value={state.email}
-                readOnly
-              />
-            </div>
-            {errors.email && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+          <TextInput
+            readOnly
+            label="Email"
+            {...register("email", {
+              required: { value: true, message: "Email must be filled" },
+            })}
+            error={errors.email?.message}
+          />
         </div>
-        {/* Title */}
         <div className="col-span-2">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700 mt-px pt-2"
-          >
-            Title
-          </label>
-          <div className="mt-0">
-            <div className="max-w-lg flex rounded-md shadow-sm">
-              <input
-                className="flex-1 block w-full text-gray-500 focus:ring-gray-300 focus:border-gray-300 min-w-0 rounded-md sm:text-sm border-gray-300"
-                type="text"
-                name="title"
-                value={state.title}
-                readOnly
-              />
-            </div>
-            {errors.title && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.title.message}
-              </p>
-            )}
-          </div>
+          <TextInput
+            readOnly
+            label="Title"
+            {...register("title", {
+              required: { value: true, message: "Title must be filled" },
+            })}
+            error={errors.title?.message}
+          />
         </div>
-        {/* Role */}
         <div className="col-span-2">
-          <label
-            htmlFor="role"
-            className="block text-sm font-medium text-gray-700 mt-px pt-2"
-          >
-            Role
-          </label>
-          <div className="mt-0">
-            <div className="max-w-lg flex rounded-md shadow-sm">
-              <input
-                className="flex-1 block w-full text-gray-500 focus:ring-gray-300 focus:border-gray-300 min-w-0 rounded-md sm:text-sm border-gray-300"
-                type="text"
-                name="role"
-                value={state.role}
-                readOnly
-              />
-            </div>
-            {errors.role && (
-              <p className="mt-2 text-sm text-red-600">{errors.role.message}</p>
-            )}
-          </div>
+          <TextInput
+            readOnly
+            label="Role"
+            {...register("role", {
+              required: { value: true, message: "Role must be filled" },
+            })}
+            error={errors.role?.message}
+          />
         </div>
       </div>
 

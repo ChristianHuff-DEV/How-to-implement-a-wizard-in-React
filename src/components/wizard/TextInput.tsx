@@ -8,6 +8,7 @@ interface TextInputProps {
   onBlur: FocusEventHandler<HTMLInputElement>;
   defaultValue?: string;
   error?: string;
+	readOnly?: boolean;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -28,6 +29,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             onChange={props.onChange}
             onBlur={props.onBlur}
             defaultValue={props.defaultValue}
+						readOnly={props.readOnly}
             className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md"
           />
           {props.error && (
