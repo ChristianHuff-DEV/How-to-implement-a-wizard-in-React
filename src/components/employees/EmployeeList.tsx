@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { getEmployees } from "../data";
+import { getEmployees } from "../../data";
 
 /**
  *  Displays a list of all employees.

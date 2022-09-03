@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import EmployeeList from "./EmployeeList";
+import EmployeeList from "../components/employees/EmployeeList";
 
 /**
  * Renders an overview of all employees and the action to add a new employee.

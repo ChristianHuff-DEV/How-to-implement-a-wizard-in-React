@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import Error404 from "./components/Error404";
-import Home from "./components/Home";
-import EmployeesOverview from "./components/EmployeesOverview";
+import Error404 from "./components/base/Error404";
+import Home from "./pages/Home";
+import EmployeesOverview from "./pages/EmployeesOverview";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import EmployeeDetails from "./components/EmployeeDetails";
+import EmployeeDetails from "./components/employees/EmployeeDetails";
 import AddEmployeeWizard from "./components/wizard/AddEmployeeWizard";
 
 const root = ReactDOM.createRoot(

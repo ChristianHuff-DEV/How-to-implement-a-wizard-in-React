@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { validate, ValidationResult } from "../../api/ValidationApi";
-import Button from "../Button";
+import Button from "../base/Button";
 import {
 	AddEmployeeWizardInput,
 	useAddEmployeeWizardState,
