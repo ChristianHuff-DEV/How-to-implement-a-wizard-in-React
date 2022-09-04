@@ -122,10 +122,11 @@ const AddEmployeeWizard = () => {
 			    In this case the EmployeesOverview component. */}
       <Routes>
         {steps.map((step) => {
-          // Get the last part of the url. This is the relative url for the steps path.
+          // Extract the last (relative) part of the url of the step.
           const urlParts = step.to.split("/");
           const path = urlParts[urlParts.length - 1];
-
+          // Since the routing is already aware of the full url
+          // we must only add the relative part when creating the Route component.
           return <Route key={path} path={path} element={step.element} />;
         })}
       </Routes>
